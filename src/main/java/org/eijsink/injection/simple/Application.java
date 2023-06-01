@@ -22,6 +22,7 @@ public class Application {
 
         Class<DataSource> annotated = DataSource.class;
         Field[] fields = annotated.getDeclaredFields();
+
         DataSource dataSource = annotated.getDeclaredConstructor().newInstance();
 
         for( Field field: fields){

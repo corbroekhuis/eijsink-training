@@ -23,4 +23,7 @@ public class DataSource {
 
         return null;
     }
+    public Integer someMethodWithOneStringParameter( String message){
+        return Integer.parseInt("3");
+    }
 }
