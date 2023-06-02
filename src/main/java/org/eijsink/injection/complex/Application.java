@@ -12,7 +12,7 @@ public class Application {
 
     public static void main(String[] args) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
-        // No inversion of control or Dependency Injection
+/*        // No inversion of control or Dependency Injection
         MenuRepository menuRepository = new MenuRepository();
         MenuService menuService = new MenuService();
         menuService.setMenuRepository( menuRepository);
@@ -23,7 +23,7 @@ public class Application {
 
         for (String menu: menus) {
             System.out.println( menu);;
-        }
+        }*/
 
         // Let framework do it's magic
         FrameWork.wireApplication();
@@ -32,7 +32,10 @@ public class Application {
             System.out.println("Name: " + name);
         }
 
-        menus = menuController.findAll();
+        MenuService menuService1 = (MenuService) context.get("org.eijsink.injection.complex.controller.MenuService");
+
+        MenuController menuController1 = (MenuController) context.get("org.eijsink.injection.complex.controller.MenuController");
+        List<String> menus = menuController1.findAll();
 
         for (String menu: menus) {
             System.out.println( menu);;

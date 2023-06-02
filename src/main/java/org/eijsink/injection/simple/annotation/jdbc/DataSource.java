@@ -7,7 +7,7 @@ import java.sql.Connection;
 public class DataSource {
 
     @Value(key="db.url")
-    public String url;
+    private String url;
     @Value(key="db.user")
     public String user;
     @Value(key="db.password")

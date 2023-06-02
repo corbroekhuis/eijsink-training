@@ -9,9 +9,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class FrameWork {
 
@@ -33,39 +31,45 @@ public class FrameWork {
 
         for( Class clazz: annotated){
 
-            Method method = getSetter( clazz);
-            if(method == null){
+            List<Method> setters = getSetter( clazz);
+
+            if(setters.size() == 0){
                 continue;
             }
-         //   Annotation annotation = clazz.getAnnotation(Autowired.class);
-            Object instance = clazz.getDeclaredConstructor().newInstance();
-            if(method.getDeclaredAnnotationsByType(Autowired.class).length > 0){
-                Object parameter = getParameters( method);
-                method.invoke( instance, parameter);
+            for( Method method: setters) {
+
+               //   Annotation annotation = clazz.getAnnotation(Autowired.class);
+               // Object instance = clazz.getDeclaredConstructor().newInstance();
+                if (method.getDeclaredAnnotationsByType(Autowired.class).length > 0) {
+
+                    Object parameter = getParameters(method);
+                    method.invoke(context.get(clazz.getName()), parameter);
+
+                }
 
             }
-            context.put(clazz.getName(), clazz.getDeclaredConstructor().newInstance());
         }
 
     }
 
     private static Object getParameters(Method method) {
 
-        Class<?>[] classes = method.getParameterTypes(); // Only one setter
+        Class<?>[] classes = method.getParameterTypes();
         return context.get (classes[0].getName());
 
     }
 
-    private static Method getSetter(Class clazz) {
+    private static List<Method> getSetter(Class clazz) {
 
         Method[] methods = clazz.getMethods();
+        List<Method> setters = new ArrayList<>();
 
         for( Method method: methods){
             if( method.getName().startsWith("set")){
-                return method;
+                setters.add(method);
             }
         }
 
-        return null;
+        return setters;
     }
 }

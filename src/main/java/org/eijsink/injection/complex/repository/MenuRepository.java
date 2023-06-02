@@ -10,9 +10,9 @@ public class MenuRepository {
 
     List<String> menus = Arrays.asList(
             "Lasagna",
-            "Pazza pepperoni",
+            "Pizza pepperoni",
             "Stuffed aubergine",
-            "Spagetti carbonara",
+            "Spaghetti carbonara",
             "Fritata with vegetables"
     );
 

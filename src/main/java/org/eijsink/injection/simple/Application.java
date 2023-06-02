@@ -26,6 +26,7 @@ public class Application {
         DataSource dataSource = annotated.getDeclaredConstructor().newInstance();
 
         for( Field field: fields){
+            field.setAccessible(true);
             Value annotation = field.getAnnotation(Value.class);
             if(annotation != null){
                 String key = annotation.key();
