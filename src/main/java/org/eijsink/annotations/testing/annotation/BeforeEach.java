@@ -7,9 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD}) // Method only.
-public @interface Test {
+public @interface BeforeEach {
 
-    // Skip this test?
-    boolean skip() default false;
 
 }

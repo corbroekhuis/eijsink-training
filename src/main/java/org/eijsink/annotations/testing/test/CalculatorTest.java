@@ -1,10 +1,16 @@
 package org.eijsink.annotations.testing.test;
 
+import org.eijsink.annotations.testing.annotation.BeforeEach;
 import org.eijsink.annotations.testing.annotation.Test;
 import org.eijsink.annotations.testing.assertion.Assertions;
 import org.eijsink.annotations.testing.service.Calculator;
 
 public class CalculatorTest {
+
+    @BeforeEach
+    public void init(){
+        Calculator.reCharge();
+    }
 
     @Test
     public void testAdd(){
@@ -40,7 +46,7 @@ public class CalculatorTest {
 
     @Test
     public void testNegative(){
-        boolean actual = Calculator.isPositive( 5);
+        boolean actual = Calculator.isPositive( -5);
         Assertions.assertEquals( false, actual);
         Assertions.assertTrue( actual);
     }

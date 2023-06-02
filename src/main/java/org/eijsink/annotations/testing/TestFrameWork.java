@@ -1,10 +1,9 @@
 package org.eijsink.annotations.testing;
 
+import org.eijsink.annotations.testing.annotation.BeforeEach;
 import org.eijsink.annotations.testing.annotation.Test;
-import org.eijsink.annotations.testing.exception.AssertionException;
 import org.eijsink.annotations.testing.test.CalculatorTest;
 import org.eijsink.annotations.util.Util;
-import org.eijsink.injection.simple.annotation.jdbc.DataSource;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -18,9 +17,16 @@ public class TestFrameWork {
         int failed = 0;
         int total = 0;
 
+        Method beforeEach = null;
+
         Class<CalculatorTest> annotated = CalculatorTest.class;
 
         List<Method> testMethods = Util.getAnnotatedMethods(annotated, Test.class);
+        List<Method> beforeEachMethods = Util.getAnnotatedMethods(annotated, BeforeEach.class);
+
+        if(beforeEachMethods.size() > 0) {
+             beforeEach = beforeEachMethods.get(0);
+        }
 
         CalculatorTest calculatorTest = annotated.getDeclaredConstructor().newInstance();
 
@@ -32,6 +38,10 @@ public class TestFrameWork {
                 continue;
             }
             try {
+                if( beforeEach != null){
+                    beforeEach.invoke(calculatorTest);
+                }
+
                 method.invoke(calculatorTest);
                 succes ++;
                 System.out.println("Test " + method.getName() + " OK! ");
@@ -51,6 +61,7 @@ public class TestFrameWork {
         try {
             runAllTests();
         }catch( Exception e){
+            e.printStackTrace();
             // Don't leave this empty
         }
 
